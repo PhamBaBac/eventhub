@@ -1,3 +1,4 @@
+import ForgotPassword from "./auth/ForgotPassword";
 import LoginScreen from "./auth/LoginScreen";
 import OnbroadingScreen from "./auth/OnbroadingScreen";
 import SignUpScreen from "./auth/SignUpScreen";
@@ -9,5 +10,6 @@ export{
     HomeScreen,
     OnbroadingScreen,
     SocialLogin,
-    SignUpScreen
+    SignUpScreen,
+    ForgotPassword
 }
