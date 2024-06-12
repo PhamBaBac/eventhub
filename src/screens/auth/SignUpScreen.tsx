@@ -1,11 +1,18 @@
-import { useEffect, useState } from "react";
-import { ButtonComponent, ContainerComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from "../../components";
-import { Lock, Sms, User } from "iconsax-react-native";
-import { appColors } from "../../constants";
-import { SocialLogin } from "./components";
-import LoadingModal from "../../modal/LoadingModal";
-import { Validate } from "../../utils/validate";
-
+import {useEffect, useState} from 'react';
+import {
+  ButtonComponent,
+  ContainerComponent,
+  InputComponent,
+  RowComponent,
+  SectionComponent,
+  SpaceComponent,
+  TextComponent,
+} from '../../components';
+import {Lock, Sms, User} from 'iconsax-react-native';
+import {appColors} from '../../constants';
+import {SocialLogin} from './components';
+import LoadingModal from '../../modal/LoadingModal';
+import {Validate} from '../../utils/validate';
 
 interface ErrorMessages {
   email: string;
@@ -26,71 +33,73 @@ const SignUpScreen = ({navigation}: any) => {
   const [errorMessage, setErrorMessage] = useState<any>();
   const [isDisable, setIsDisable] = useState(true);
 
+  useEffect(() => {
+    if (
+      !errorMessage ||
+      (errorMessage &&
+        (errorMessage.email ||
+          errorMessage.password ||
+          errorMessage.confirmPassword)) ||
+      !values.email ||
+      !values.password ||
+      !values.confirmPassword
+    ) {
+      setIsDisable(true);
+    } else {
+      setIsDisable(false);
+    }
+  }, [errorMessage, values]);
 
- useEffect(() => {
-   if (
-     !errorMessage ||
-     (errorMessage &&
-       (errorMessage.email ||
-         errorMessage.password ||
-         errorMessage.confirmPassword)) ||
-     !values.email ||
-     !values.password ||
-     !values.confirmPassword
-   ) {
-     setIsDisable(true);
-   } else {
-     setIsDisable(false);
-   }
- }, [errorMessage, values]);
+  const handleChangeValue = (key: string, value: string) => {
+    const data: any = {...values};
 
- const handleChangeValue = (key: string, value: string) => {
-   const data: any = {...values};
+    data[`${key}`] = value;
 
-   data[`${key}`] = value;
+    setValues(data);
+  };
 
-   setValues(data);
- };
+  const formValidator = (key: string) => {
+    const data = {...errorMessage};
+    let message = ``;
 
- const formValidator = (key: string) => {
-   const data = {...errorMessage};
-   let message = ``;
+    switch (key) {
+      case 'email':
+        if (!values.email) {
+          message = `Email is required!!!`;
+        } else if (!Validate.email(values.email)) {
+          message = 'Email is not invalid!!';
+        } else {
+          message = '';
+        }
 
-   switch (key) {
-     case 'email':
-       if (!values.email) {
-         message = `Email is required!!!`;
-       } else if (!Validate.email(values.email)) {
-         message = 'Email is not invalid!!';
-       } else {
-         message = '';
-       }
+        break;
 
-       break;
+      case 'password':
+        message = !values.password ? `Password is required!!!` : '';
+        break;
 
-     case 'password':
-       message = !values.password ? `Password is required!!!` : '';
-       break;
+      case 'confirmPassword':
+        if (!values.confirmPassword) {
+          message = `Please type confirm password!!`;
+        } else if (values.confirmPassword !== values.password) {
+          message = 'Password is not match!!!';
+        } else {
+          message = '';
+        }
 
-     case 'confirmPassword':
-       if (!values.confirmPassword) {
-         message = `Please type confirm password!!`;
-       } else if (values.confirmPassword !== values.password) {
-         message = 'Password is not match!!!';
-       } else {
-         message = '';
-       }
+        break;
+    }
 
-       break;
-   }
+    data[`${key}`] = message;
 
-   data[`${key}`] = message;
-
-   setErrorMessage(data);
- };
+    setErrorMessage(data);
+  };
 
   const handleRegister = async () => {
-    
+    navigation.navigate('Verification',{
+        code: '1234',
+        ...values,
+    });
   };
 
   return (
