@@ -20,7 +20,7 @@ const App = () => {
         backgroundColor="transparent"
         translucent
       />
-      {!isSplash ? (
+      {isSplash ? (
         <SplashScreen />
       ) : (
         <NavigationContainer>
