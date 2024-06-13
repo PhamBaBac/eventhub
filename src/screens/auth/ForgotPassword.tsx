@@ -4,6 +4,8 @@ import { ButtonComponent, ContainerComponent, InputComponent, SectionComponent, 
 import { ArrowRight, Sms } from "iconsax-react-native";
 import { appColors } from "../../constants";
 import LoadingModal from "../../modal/LoadingModal";
+import authenticationAPI from "../../apis/authApi";
+import { Alert } from "react-native";
 
 
 const ForgotPassword = () => {
@@ -16,8 +18,25 @@ const ForgotPassword = () => {
     setIsDisable(!isValidEmail);
   };
 
-  const handleForgotPassword = async () => {
-  };
+   const handleForgotPassword = async () => {
+     const api = `/forgotPassword`;
+     setIsLoading(true);
+     try {
+       const res: any = await authenticationAPI.HandleAuthentication(
+         api,
+         {email},
+         'post',
+       );
+
+       console.log(res);
+
+       Alert.alert('Send mail', 'We sended a email includes new password!!!');
+       setIsLoading(false);
+     } catch (error) {
+       setIsLoading(false);
+       console.log(`Can not create new password api forgot password, ${error}`);
+     }
+   };
 
   return (
     <ContainerComponent back isImageBackground isScroll>
