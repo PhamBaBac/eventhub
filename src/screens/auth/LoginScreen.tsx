@@ -1,5 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Lock, Sms} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
 import {Alert, Image, Switch} from 'react-native';
+import {useDispatch} from 'react-redux';
+import authenticationAPI from '../../apis/authApi';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -10,7 +14,8 @@ import {
   TextComponent,
 } from '../../components';
 import {appColors} from '../../constants';
-import {Lock, Sms} from 'iconsax-react-native';
+import {addAuth} from '../../redux/reducers/authReducer';
+import {Validate} from '../../utils/validate';
 import {SocialLogin} from './components';
 
 const LoginScreen = ({navigation}: any) => {
@@ -19,6 +24,43 @@ const LoginScreen = ({navigation}: any) => {
   const [isRemember, setIsRemember] = useState(true);
   const [isDisable, setIsDisable] = useState(true);
 
+  const dispatch = useDispatch();
+
+   useEffect(() => {
+     const emailValidation = Validate.email(email);
+
+     if (!email || !password || !emailValidation) {
+       setIsDisable(true);
+     } else {
+       setIsDisable(false);
+     }
+   }, [email, password]);
+   
+  const handleLogin = async () => {
+    const emailValidation = Validate.email(email);
+    if (emailValidation) {
+      try {
+        const res = await authenticationAPI.HandleAuthentication(
+          '/login',
+          {email, password},
+          'post',
+        );
+        console.log("res", res.data);
+
+        dispatch(addAuth(res.data));
+
+        await AsyncStorage.setItem(
+          'auth',
+          isRemember ? JSON.stringify(res.data) : email,
+        );
+        
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Alert.alert('Email is not correct!!!!');
+    }
+  };
   return (
     <ContainerComponent isImageBackground isScroll>
       <SectionComponent
@@ -74,7 +116,12 @@ const LoginScreen = ({navigation}: any) => {
       </SectionComponent>
       <SpaceComponent height={16} />
       <SectionComponent>
-        <ButtonComponent disable={isDisable} text="SIGN IN" type="primary" />
+        <ButtonComponent
+          onPress={handleLogin}
+          disable={isDisable}
+          text="SIGN IN"
+          type="primary"
+        />
       </SectionComponent>
       <SocialLogin />
       <SectionComponent>

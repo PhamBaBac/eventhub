@@ -5,10 +5,16 @@ import { appColors, fontFamilies } from "../../constants";
 import { ArrowRight } from "iconsax-react-native";
 import LoadingModal from "../../modal/LoadingModal";
 import { useEffect, useRef, useState } from "react";
+import authenticationAPI from "../../apis/authApi";
+import { addAuth } from "../../redux/reducers/authReducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
 
 
 const Verification = ({navigation, route}: any) => {
   const {code, email, password, username} = route.params;
+
+  const dispatch = useDispatch();
 
   const [currentCode, setCurrentCode] = useState<string>(code);
   const [codeValues, setCodeValues] = useState<string[]>([]);
@@ -51,11 +57,59 @@ const Verification = ({navigation, route}: any) => {
   };
 
   const handleResendVerification = async () => {
-    
+    setCodeValues(['', '', '', '']);
+    setNewCode('');
+
+    const api = `/verification`;
+    setIsLoading(true);
+    try {
+      const res: any = await authenticationAPI.HandleAuthentication(
+        api,
+        {email},
+        'post',
+      );
+
+      setLimit(120);
+      setCurrentCode(res.data.code);
+      setIsLoading(false);
+
+      console.log(res.data.code);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(`Can not send verification code ${error}`);
+    }
   };
 
   const handleVerification = async () => {
-    
+    if (limit > 0) {
+      if (parseInt(newCode) !== parseInt(currentCode)) {
+        setErrorMessage('Invalid code!!!');
+      } else {
+        setErrorMessage('');
+
+        const api = `/register`;
+        const data = {
+          email,
+          password,
+          username: username ?? '',
+        };
+
+        try {
+          const res: any = await authenticationAPI.HandleAuthentication(
+            api,
+            data,
+            'post',
+          );
+          dispatch(addAuth(res.data));
+          await AsyncStorage.setItem('auth', JSON.stringify(res.data));
+        } catch (error) {
+          setErrorMessage('User has already exist!!!');
+          console.log(`Can not create new user ${error}`);
+        }
+      }
+    } else {
+      setErrorMessage('Time out verification code, please resend new code!!!');
+    }
   };
 
   return (
@@ -194,3 +248,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+

@@ -96,27 +96,26 @@ const SignUpScreen = ({navigation}: any) => {
     setErrorMessage(data);
   };
 
-const handleRegister = async () => {
-  const api = `/verification`;
-  setIsLoading(true);
-  try {
-    const res = await authenticationAPI.HandleAuthentication(
-      api,
-      {email: values.email},
-      'post',
-    );
+  const handleRegister = async () => {
+    const api = `/verification`;
+    setIsLoading(true);
+    try {
+      const res = await authenticationAPI.HandleAuthentication(
+        api,
+        {email: values.email},
+        'post',
+      );
+      setIsLoading(false);
 
-    setIsLoading(false);
-
-    navigation.navigate('Verification', {
-      code: res.data.code,
-      ...values,
-    });
-  } catch (error) {
-    console.log(error);
-    setIsLoading(false);
-  }
-};
+      navigation.navigate('Verification', {
+        code: res.data.code,
+        ...values,
+      });
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
