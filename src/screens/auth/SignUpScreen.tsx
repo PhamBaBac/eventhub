@@ -13,6 +13,7 @@ import {appColors} from '../../constants';
 import {SocialLogin} from './components';
 import LoadingModal from '../../modal/LoadingModal';
 import {Validate} from '../../utils/validate';
+import authenticationAPI from '../../apis/authApi';
 
 interface ErrorMessages {
   email: string;
@@ -95,12 +96,27 @@ const SignUpScreen = ({navigation}: any) => {
     setErrorMessage(data);
   };
 
-  const handleRegister = async () => {
-    navigation.navigate('Verification',{
-        code: '1234',
-        ...values,
+const handleRegister = async () => {
+  const api = `/verification`;
+  setIsLoading(true);
+  try {
+    const res = await authenticationAPI.HandleAuthentication(
+      api,
+      {email: values.email},
+      'post',
+    );
+
+    setIsLoading(false);
+
+    navigation.navigate('Verification', {
+      code: res.data.code,
+      ...values,
     });
-  };
+  } catch (error) {
+    console.log(error);
+    setIsLoading(false);
+  }
+};
 
   return (
     <>
