@@ -9,25 +9,44 @@ import {
 import {appColors, fontFamilies} from '../../../constants';
 import LoadingModal from '../../../modal/LoadingModal';
 import {useState} from 'react';
+import { useDispatch } from 'react-redux';
+import authenticationAPI from '../../../apis/authApi';
+import { addAuth } from '../../../redux/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 GoogleSignin.configure({
   webClientId:
     '725319707297-shgsb3d9gmnt8sc3du8apap637ml2g1i.apps.googleusercontent.com',
 });
 const SocialLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const handleLoginWithGoogle = async () => {
-    await GoogleSignin.hasPlayServices({
-      showPlayServicesUpdateDialog: true,
-    });
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      const user = userInfo.user;
-      console.log('user', user);
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+  
+    const api = `/google-signin`;
+
+    const dispatch = useDispatch();
+
+    const handleLoginWithGoogle = async () => {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+
+      try {
+        await GoogleSignin.hasPlayServices();
+        const userInfo = await GoogleSignin.signIn();
+        const user = userInfo.user;
+
+        const res: any = await authenticationAPI.HandleAuthentication(
+          api,
+          user,
+          'post',
+        );
+
+        dispatch(addAuth(res.data));
+        await AsyncStorage.setItem('auth', JSON.stringify(res.data));
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error);
+      }
+    };
   return (
     <SectionComponent>
       <TextComponent
