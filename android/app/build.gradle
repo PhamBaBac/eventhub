@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.bacpham.eventhub"
+    namespace "com.phambac.eventhub"
     defaultConfig {
-        applicationId "com.bacpham.eventhub"
+        applicationId "com.phambac.eventhub"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
