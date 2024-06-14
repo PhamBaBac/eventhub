@@ -45,7 +45,6 @@ const LoginScreen = ({navigation}: any) => {
           {email, password},
           'post',
         );
-        console.log("res", res.data);
 
         dispatch(addAuth(res.data));
 
