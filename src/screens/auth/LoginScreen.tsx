@@ -52,6 +52,7 @@ const LoginScreen = ({navigation}: any) => {
           'auth',
           isRemember ? JSON.stringify(res.data) : email,
         );
+        navigation.navigate('HomeScreen');
         
       } catch (error) {
         console.log(error);

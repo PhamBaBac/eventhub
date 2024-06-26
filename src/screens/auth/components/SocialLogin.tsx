@@ -9,44 +9,47 @@ import {
 import {appColors, fontFamilies} from '../../../constants';
 import LoadingModal from '../../../modal/LoadingModal';
 import {useState} from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import authenticationAPI from '../../../apis/authApi';
-import { addAuth } from '../../../redux/reducers/authReducer';
+import {addAuth} from '../../../redux/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 GoogleSignin.configure({
   webClientId:
     '725319707297-shgsb3d9gmnt8sc3du8apap637ml2g1i.apps.googleusercontent.com',
+  iosClientId:
+    '725319707297-9mtlaokoocj6vocer6i7h3dl0toefj4e.apps.googleusercontent.com',
 });
-const SocialLogin = () => {
+const SocialLogin = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState(false);
-  
-    const api = `/google-signin`;
 
-    const dispatch = useDispatch();
+  const api = `/google-signin`;
 
-    const handleLoginWithGoogle = async () => {
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
+  const dispatch = useDispatch();
 
-      try {
-        await GoogleSignin.hasPlayServices();
-        const userInfo = await GoogleSignin.signIn();
-        const user = userInfo.user;
+  const handleLoginWithGoogle = async () => {
+    await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    });
 
-        const res: any = await authenticationAPI.HandleAuthentication(
-          api,
-          user,
-          'post',
-        );
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const user = userInfo.user;
 
-        dispatch(addAuth(res.data));
-        await AsyncStorage.setItem('auth', JSON.stringify(res.data));
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      const res: any = await authenticationAPI.HandleAuthentication(
+        api,
+        user,
+        'post',
+      );
+
+      dispatch(addAuth(res.data));
+      await AsyncStorage.setItem('auth', JSON.stringify(res.data));
+      navigation.navigate('HomeScreen');
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <SectionComponent>
       <TextComponent

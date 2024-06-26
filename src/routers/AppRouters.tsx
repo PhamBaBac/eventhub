@@ -12,7 +12,8 @@ const AppRouters = () => {
   const {getItem} = useAsyncStorage('auth');
 
   const auth = useSelector(authSelector);
-  console.log(auth);
+  console.log(auth?.accesstoken);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
