@@ -1,13 +1,44 @@
-import { HambergerMenu, Notification, SearchNormal, Sort } from 'iconsax-react-native';
+import {
+  HambergerMenu,
+  Notification,
+  SearchNormal,
+  Sort
+} from 'iconsax-react-native';
 import React from 'react';
-import { Platform, StatusBar, TouchableOpacity, View } from 'react-native';
+import { FlatList, ImageBackground, Platform, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { RowComponent, SpaceComponent, TextComponent } from '../../components';
-import CircleComponent from '../../components/CircleComponent';
+import {
+  CategoriesList,
+  CircleComponent,
+  EventItem,
+  RowComponent,
+  SectionComponent,
+  SpaceComponent,
+  TabBarComponent,
+  TextComponent
+} from '../../components';
 import { appColors, fontFamilies } from '../../constants';
 import { globalStyles } from '../../styles/globalStyles';
+import TagComponent from '../../components/TagComponent';
 
 const HomeScreen = ({navigation}: any) => {
+   const itemEvent = {
+     title: 'International Band Music Concert',
+     description:
+       'Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase.',
+     location: {
+       title: 'Gala Convention Center',
+       address: '36 Guild Street London, UK',
+     },
+     imageUrl:
+       'https://phambabac.s3.ap-southeast-1.amazonaws.com/202d0b66-4573-4bab-804b-99dd4547b858.jpg',
+     users: [''],
+     authorId: '',
+     startAt: Date.now(),
+     endAt: Date.now(),
+     date: Date.now(),
+   };
+
   return (
     <View style={[globalStyles.container]}>
       <StatusBar barStyle={'light-content'} />
@@ -86,24 +117,89 @@ const HomeScreen = ({navigation}: any) => {
                 }}
               />
               <TextComponent text="Search..." color={`#A29EF0`} flex={1} />
-            </RowComponent>
-            <RowComponent
-              styles={{
-                backgroundColor: '#5D56F3',
-                paddingHorizontal: 12,
-                paddingVertical: 8,
-                borderRadius: 100,
-              }}>
-              <CircleComponent size={19.3} color={`#A29EF0`}>
-                <Sort size={12} color={appColors.primary} />
-              </CircleComponent>
-              <SpaceComponent width={8} />
-              <TextComponent text="Filters" color={appColors.white} />
+              <TagComponent
+                bgColor={'#5D56F3'}
+                onPress={() =>
+                  navigation.navigate('SearchEvents', {
+                    isFilter: true,
+                  })
+                }
+                label="Filters"
+                icon={
+                  <CircleComponent size={20} color="#B1AEFA">
+                    <Sort size={16} color="#5D56F3" />
+                  </CircleComponent>
+                }
+              />
             </RowComponent>
           </RowComponent>
+          <SpaceComponent height={24} />
+        </View>
+        <View style={{marginBottom: -14}}>
+          <CategoriesList isColor />
         </View>
       </View>
-      <View style={{flex: 1}}></View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={[
+          {
+            flex: 1,
+            marginTop: Platform.OS === 'ios' ? 22 : 18,
+          },
+        ]}>
+        <SectionComponent styles={{paddingHorizontal: 0, paddingTop: 24}}>
+          <TabBarComponent title="Upcoming Events" onPress={() => {}} />
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            data={Array.from({length: 5})}
+            renderItem={({item, index}) => (
+              <EventItem key={`event${index}`} item={itemEvent} type="card" />
+            )}
+          />
+        </SectionComponent>
+        <SectionComponent>
+          <ImageBackground
+            source={require('../../assets/images/invite-image.png')}
+            style={{flex: 1, padding: 16, minHeight: 127}}
+            imageStyle={{
+              resizeMode: 'cover',
+              borderRadius: 12,
+            }}>
+            <TextComponent text="Invite your friends" title />
+            <TextComponent text="Get $20 for ticket" />
+
+            <RowComponent justify="flex-start">
+              <TouchableOpacity
+                style={[
+                  globalStyles.button,
+                  {
+                    marginTop: 12,
+                    backgroundColor: '#00F8FF',
+                    paddingHorizontal: 28,
+                  },
+                ]}>
+                <TextComponent
+                  text="INVITE"
+                  font={fontFamilies.bold}
+                  color={appColors.white}
+                />
+              </TouchableOpacity>
+            </RowComponent>
+          </ImageBackground>
+        </SectionComponent>
+        <SectionComponent styles={{paddingHorizontal: 0, paddingTop: 24}}>
+          <TabBarComponent title="Nearby You" onPress={() => {}} />
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            data={Array.from({length: 5})}
+            renderItem={({item, index}) => (
+              <EventItem key={`event${index}`} item={itemEvent} type="card" />
+            )}
+          />
+        </SectionComponent>
+      </ScrollView>
     </View>
   );
 };

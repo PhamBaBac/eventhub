@@ -1,9 +1,7 @@
-import {View, Text} from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import React from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import ExploreNavigator from './ExploreNavigator';
+import { DrawerCustom } from '../components';
 import TabNavigator from './TabNavigator';
-import DrawerCustom from '../components/DrawerCustom';
 
 const DrawerNavigator = () => {
   const Drawer = createDrawerNavigator();
