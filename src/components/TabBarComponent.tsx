@@ -1,29 +1,31 @@
-import {View, Text} from 'react-native';
 import React from 'react';
-import RowComponent from './RowComponent';
-import TextComponent from './TextComponent';
+import {RowComponent, TextComponent} from '.';
 import {ArrowRight2} from 'iconsax-react-native';
 import { appColors } from '../constants';
+
 interface Props {
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
-const TagBarComponent = (props: Props) => {
+const TabBarComponent = (props: Props) => {
   const {title, onPress} = props;
+
   return (
-    <RowComponent styles={{paddingHorizontal: 16, marginBottom: 12}} onPress={onPress}>
-      <TextComponent
-        text={title}
-        size={14}
-        flex={1}
-      />
-      <RowComponent>
-        <TextComponent color={appColors.gray} text="See all" size={14} />
-        <ArrowRight2 size={16} color={appColors.gray} variant="Bold" />
-      </RowComponent>
+    <RowComponent
+      styles={{
+        marginBottom: 20,
+        paddingHorizontal: 16,
+      }}>
+      <TextComponent text={title} title flex={1} size={18} />
+      {onPress && (
+        <RowComponent onPress={onPress}>
+          <TextComponent text="See All " size={12} color={appColors.text2} />
+          <ArrowRight2 size={14} color={appColors.text2} variant="Bold" />
+        </RowComponent>
+      )}
     </RowComponent>
   );
 };
 
-export default TagBarComponent;
+export default TabBarComponent;

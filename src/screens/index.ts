@@ -5,6 +5,7 @@ import SignUpScreen from "./auth/SignUpScreen";
 import Verification from "./auth/Verification";
 import SocialLogin from "./auth/components/SocialLogin";
 import EventScreen from "./events/EventScreen";
+import EventDetail from "./events/EventDetail";
 import HomeScreen from "./home/HomeScreen";
 import MapScreen from "./maps/MapScreen";
 import ProfileScreen from "./profiles/ProfileScreen";
@@ -19,5 +20,6 @@ export{
     Verification,
     MapScreen,
     EventScreen,
-    ProfileScreen
+    ProfileScreen,
+    EventDetail
 }

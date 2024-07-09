@@ -71,7 +71,7 @@ const SocialLogin = ({navigation}: any) => {
         iconFlex="left"
         icon={<Google />}
       />
-
+      <SpaceComponent height={16} />
       <ButtonComponent
         type="primary"
         color={appColors.white}

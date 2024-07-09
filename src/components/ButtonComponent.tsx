@@ -54,7 +54,6 @@ const ButtonComponent = (props: Props) => {
               : disable
               ? appColors.gray4
               : appColors.primary,
-            marginBottom: 17,
             width: '90%',
           },
           styles,
@@ -64,12 +63,12 @@ const ButtonComponent = (props: Props) => {
           text={text}
           color={textColor ?? appColors.white}
           styles={[
-            textStyles,
             {
               marginLeft: icon ? 12 : 0,
               fontSize: 16,
               textAlign: 'center',
             },
+            textStyles
           ]}
           flex={icon && iconFlex === 'right' ? 1 : 0}
           font={textFont ?? fontFamilies.medium}

@@ -174,14 +174,15 @@ const HomeScreen = ({navigation}: any) => {
                 style={[
                   globalStyles.button,
                   {
-                    marginTop: 12,
+                    marginTop: 10,
                     backgroundColor: '#00F8FF',
-                    paddingHorizontal: 28,
+                    paddingHorizontal: 20,
+                    paddingVertical: 10,
                   },
                 ]}>
                 <TextComponent
                   text="INVITE"
-                  font={fontFamilies.bold}
+                  font={fontFamilies.medium}
                   color={appColors.white}
                 />
               </TouchableOpacity>

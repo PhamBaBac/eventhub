@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { appColors, fontFamilies } from "../constants";
 
 export const globalStyles = StyleSheet.create({
@@ -22,14 +22,14 @@ export const globalStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   shadow: {
-    shadowColor: 'rgba(0,0,0,0.5)',
+    shadowColor: Platform.OS === 'ios' ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.5)',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 6,
     },
     shadowOpacity: 0.25,
     shadowRadius: 8,
-    elevation: 6,
+    elevation: 8,
   },
   section: {
     paddingHorizontal: 16,
@@ -60,5 +60,16 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: appColors.white,
     margin: 12,
+  },
+  noSpaceCard: {
+    alignItems: 'center',
+    width: 45,
+    margin: 0,
+    padding: 0,
+    marginVertical: 0,
+    marginHorizontal: 0,
+    marginBottom: 0,
+    height: 45,
+    justifyContent: 'center',
   },
 });
