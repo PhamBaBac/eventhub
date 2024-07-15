@@ -2356,6 +2356,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/geolocation@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "@react-native-community/geolocation@npm:3.2.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 9d2749a9a86697f1b0da7ebf873d444efbf926eedee89a35810016385b81005d4802cbd7d1188ebfdfb146a41d5a11b8c907ee3ce8b434a4929fd81cac100f75
+  languageName: node
+  linkType: hard
+
 "@react-native-google-signin/google-signin@npm:^12.2.1":
   version: 12.2.1
   resolution: "@react-native-google-signin/google-signin@npm:12.2.1"
@@ -3010,6 +3020,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/geojson@npm:^7946.0.13":
+  version: 7946.0.14
+  resolution: "@types/geojson@npm:7946.0.14"
+  checksum: ae511bee6488ae3bd5a3a3347aedb0371e997b14225b8983679284e22fa4ebd88627c6e3ff8b08bf4cc35068cb29310c89427311ffc9322c255615821a922e71
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.3":
   version: 4.1.9
   resolution: "@types/graceful-fs@npm:4.1.9"
@@ -3055,6 +3072,13 @@ __metadata:
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
   checksum: 97ed0cb44d4070aecea772b7b2e2ed971e10c81ec87dd4ecc160322ffa55ff330dace1793489540e3e318d90942064bb697cc0f8989391797792d919737b3b98
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4.17.6":
+  version: 4.17.6
+  resolution: "@types/lodash@npm:4.17.6"
+  checksum: f748c672f49c54ee631a0fab6f26d56ab99bd68a4fb91604b5d7525a72102dd1917209c12d7078c988a375edb5dc70ca600db05ac01785306fd64470048cd16c
   languageName: node
   linkType: hard
 
@@ -5312,6 +5336,7 @@ __metadata:
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
     "@react-native-async-storage/async-storage": ^1.23.1
+    "@react-native-community/geolocation": ^3.2.1
     "@react-native-google-signin/google-signin": ^12.2.1
     "@react-native/babel-preset": 0.74.84
     "@react-native/eslint-config": 0.74.84
@@ -5324,6 +5349,7 @@ __metadata:
     "@react-navigation/stack": ^6.3.29
     "@reduxjs/toolkit": ^2.2.5
     "@types/axios": ^0.14.0
+    "@types/lodash": ^4.17.6
     "@types/react": ^18.2.6
     "@types/react-native-vector-icons": ^6.4.18
     "@types/react-test-renderer": ^18.0.0
@@ -5332,11 +5358,14 @@ __metadata:
     eslint: ^8.19.0
     iconsax-react-native: ^0.0.8
     jest: ^29.6.3
+    lodash: ^4.17.21
     prettier: 2.8.8
     react: 18.2.0
     react-native: 0.74.2
+    react-native-geocoding: ^0.5.0
     react-native-gesture-handler: ^2.16.2
     react-native-linear-gradient: ^2.8.3
+    react-native-maps: ^1.15.6
     react-native-reanimated: ^3.12.0
     react-native-safe-area-context: ^4.10.4
     react-native-screens: ^3.31.1
@@ -8725,6 +8754,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-geocoding@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "react-native-geocoding@npm:0.5.0"
+  checksum: a33e9dc87d104abe19206660e9fa0782090909ca8b58c70eae4690faa92194817724833086b29c57387500cdd9ecd0febd6ccbbd0f4eac0e11a93696429cf9d2
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:^2.16.2":
   version: 2.16.2
   resolution: "react-native-gesture-handler@npm:2.16.2"
@@ -8748,6 +8784,22 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f980d324e551bbc475c6406bdc5250a08242020cbe653412fa169bbdf51e28a502e225de105b4d696d6a1a1b733d44782469020f4936d8b3ce0e2c78e51cf58f
+  languageName: node
+  linkType: hard
+
+"react-native-maps@npm:^1.15.6":
+  version: 1.15.6
+  resolution: "react-native-maps@npm:1.15.6"
+  dependencies:
+    "@types/geojson": ^7946.0.13
+  peerDependencies:
+    react: ">= 17.0.1"
+    react-native: ">= 0.64.3"
+    react-native-web: ">= 0.11"
+  peerDependenciesMeta:
+    react-native-web:
+      optional: true
+  checksum: 42baf0dfa930f799ad7ab833215511dbee72fb02622feef67d62c1fc111585e8fa73c20e7f3e292bd233876a453ae3129e2a7144b43375cd0ffe834907858405
   languageName: node
   linkType: hard
 

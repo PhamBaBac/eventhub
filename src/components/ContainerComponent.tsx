@@ -1,17 +1,20 @@
-import { useNavigation } from '@react-navigation/native';
-import { ArrowLeft } from 'iconsax-react-native';
-import React, { ReactNode } from 'react';
 import {
-    ImageBackground,
-    SafeAreaView,
-    ScrollView,
-    TouchableOpacity,
-    View
+  View,
+  Text,
+  ImageBackground,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+  StatusBar,
+  Platform,
 } from 'react-native';
-import { appColors, fontFamilies } from '../constants';
-import { globalStyles } from '../styles/globalStyles';
-import RowComponent from './RowComponent';
-import TextComponent from './TextComponent';
+import React, {ReactNode} from 'react';
+import {globalStyles} from '../styles/globalStyles';
+import {useNavigation} from '@react-navigation/native';
+import {ButtonComponent, RowComponent, TextComponent} from '.';
+import {ArrowLeft} from 'iconsax-react-native';
+import {fontFamilies} from '../constants/fontFamilies';
+import { appColors } from '../constants';
 
 interface Props {
   isImageBackground?: boolean;
@@ -28,7 +31,7 @@ const ContainerComponent = (props: Props) => {
 
   const headerComponent = () => {
     return (
-      <View style={{flex: 1, paddingTop: 30}}>
+      <View style={{flex: 1}}>
         {(title || back) && (
           <RowComponent
             styles={{
@@ -79,7 +82,14 @@ const ContainerComponent = (props: Props) => {
     </ImageBackground>
   ) : (
     <SafeAreaView style={[globalStyles.container]}>
-      <View>{headerComponent()}</View>
+      <StatusBar barStyle={'dark-content'} />
+      <View
+        style={[
+          globalStyles.container,
+          {paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0},
+        ]}>
+        {headerComponent()}
+      </View>
     </SafeAreaView>
   );
 };

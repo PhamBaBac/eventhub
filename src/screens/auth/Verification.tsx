@@ -72,8 +72,6 @@ const Verification = ({navigation, route}: any) => {
       setLimit(120);
       setCurrentCode(res.data.code);
       setIsLoading(false);
-
-      console.log(res.data.code);
     } catch (error) {
       setIsLoading(false);
       console.log(`Can not send verification code ${error}`);

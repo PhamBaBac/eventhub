@@ -1,16 +1,19 @@
-import { Platform, StyleSheet } from "react-native";
-import { appColors, fontFamilies } from "../constants";
+import {Platform, StyleSheet} from 'react-native';
+import {fontFamilies} from '../constants/fontFamilies';
+import { appColors } from '../constants';
 
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: appColors.white,
   },
+
   text: {
     fontFamily: fontFamilies.regular,
     fontSize: 14,
     color: appColors.text,
   },
+
   button: {
     borderRadius: 12,
     justifyContent: 'center',
@@ -31,6 +34,7 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 8,
   },
+
   section: {
     paddingHorizontal: 16,
     paddingBottom: 20,
@@ -40,6 +44,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+
   iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -48,19 +53,22 @@ export const globalStyles = StyleSheet.create({
     height: 30,
     borderRadius: 100,
   },
+
   tag: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: appColors.white,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 100,
-    // marginRight: 12,
   },
+
   card: {
-    padding: 12,
     borderRadius: 12,
     backgroundColor: appColors.white,
-    margin: 12,
+    padding: 12,
+    marginHorizontal: 12,
+    marginVertical: 6,
+    marginBottom: 16,
   },
+
   noSpaceCard: {
     alignItems: 'center',
     width: 45,
@@ -71,5 +79,28 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 0,
     height: 45,
     justifyContent: 'center',
+  },
+
+  inputContainer: {
+    flexDirection: 'row',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: appColors.gray3,
+    width: '100%',
+    minHeight: 56,
+    paddingVertical: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    backgroundColor: appColors.white,
+    marginBottom: 19,
+  },
+
+  input: {
+    padding: 0,
+    margin: 0,
+    flex: 1,
+    // paddingHorizontal: 14,
+    color: appColors.text,
   },
 });

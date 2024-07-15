@@ -4,7 +4,7 @@ import {
   SearchNormal,
   Sort
 } from 'iconsax-react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, ImageBackground, Platform, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
@@ -20,8 +20,36 @@ import {
 import { appColors, fontFamilies } from '../../constants';
 import { globalStyles } from '../../styles/globalStyles';
 import TagComponent from '../../components/TagComponent';
+import GeoLocation from '@react-native-community/geolocation';
+import axios from 'axios';
 
 const HomeScreen = ({navigation}: any) => {
+   const [currentLocation, setCurrentLocation] = useState<AddressModel >();
+
+   useEffect(() => {
+     GeoLocation.getCurrentPosition(position => {
+       if (position.coords) {
+         reverseGeoCode({
+           lat: position.coords.latitude,
+           long: position.coords.longitude,
+         });
+       }
+     });
+   }, []);
+
+  const reverseGeoCode = async ({lat, long}: {lat: number; long: number}) => {
+    const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-VN&apiKey=ifJH90rxpk9Bv7UG3VydMhplRNuf-6hpT86eEJaG_rQ`;
+    try {
+      const res = await axios(api);
+
+      if (res && res.status === 200 && res.data) {
+        const items = res.data.items;
+        setCurrentLocation(items[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
    const itemEvent = {
      title: 'International Band Music Concert',
      description:
@@ -74,7 +102,7 @@ const HomeScreen = ({navigation}: any) => {
                 />
               </RowComponent>
               <TextComponent
-                text="New York, USA"
+                text={`${currentLocation?.address.city}, ${currentLocation?.address.countryCode}`}
                 flex={0}
                 color={appColors.white}
                 font={fontFamilies.medium}

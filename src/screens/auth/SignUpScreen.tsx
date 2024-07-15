@@ -15,11 +15,6 @@ import LoadingModal from '../../modal/LoadingModal';
 import {Validate} from '../../utils/validate';
 import authenticationAPI from '../../apis/authApi';
 
-interface ErrorMessages {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 
 const initValue = {
   username: '',
