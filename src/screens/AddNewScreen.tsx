@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React, { useState } from 'react'
-import { ContainerComponent, InputComponent, SectionComponent, TextComponent } from '../components'
+import { ContainerComponent, DateTimePicker, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../components'
 import { useSelector } from 'react-redux'
 import { authSelector } from '../redux/reducers/authReducer';
 import ChoiceLocation from '../components/ChoiceLocation';
@@ -64,6 +64,21 @@ const AddNewScreen = () => {
           onChange={val => handleChangeValue('description', val)}
         />
         <ChoiceLocation onSelect={val => handleLocation(val)} />
+        <RowComponent>
+          <DateTimePicker
+            label="Date:"
+            type="date"
+            onSelected={val => handleChangeValue('date', val)}
+            selected={eventData.date}
+          />
+          <SpaceComponent width={10} />
+          <DateTimePicker
+            label="Start at:"
+            type="time"
+            onSelected={val => handleChangeValue('startAt', val)}
+            selected={eventData.startAt}
+          />
+        </RowComponent>
       </SectionComponent>
     </ContainerComponent>
   );

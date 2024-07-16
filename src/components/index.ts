@@ -3,6 +3,7 @@ import CardComponent from "./CardComponent";
 import CategoriesList from "./CategoriesList";
 import CircleComponent from "./CircleComponent";
 import ContainerComponent from "./ContainerComponent";
+import DateTimePicker from "./DateTimePicker";
 import DrawerCustom from "./DrawerCustom";
 import EventItem from "./EventItem";
 import InputComponent from "./InputComponent";
@@ -29,4 +30,5 @@ export {
   CardComponent,
   EventItem,
   TagComponent,
+  DateTimePicker,
 };
