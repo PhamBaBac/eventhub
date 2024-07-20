@@ -66,19 +66,25 @@ const AddNewScreen = () => {
         <ChoiceLocation onSelect={val => handleLocation(val)} />
         <RowComponent>
           <DateTimePicker
-            label="Date:"
+            label="Start at:"
             type="date"
             onSelected={val => handleChangeValue('date', val)}
             selected={eventData.date}
           />
           <SpaceComponent width={10} />
           <DateTimePicker
-            label="Start at:"
+            label="End at:"
             type="time"
             onSelected={val => handleChangeValue('startAt', val)}
             selected={eventData.startAt}
           />
         </RowComponent>
+        <DateTimePicker
+          label="Date:"
+          type="date"
+          onSelected={val => handleChangeValue('startAt', val)}
+          selected={eventData.startAt}
+        />
       </SectionComponent>
     </ContainerComponent>
   );

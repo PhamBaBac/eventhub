@@ -7,6 +7,7 @@ import {Calendar, Clock} from 'iconsax-react-native';
 import {appColors, fontFamilies} from '../constants';
 import DatePicker from 'react-native-date-picker';
 import {globalStyles} from '../styles/globalStyles';
+import SpaceComponent from './SpaceComponent';
 interface Props {
   selected?: Date;
   type: 'date' | 'time';
@@ -20,6 +21,7 @@ const DateTimePicker = (props: Props) => {
   return (
     <View style={{flex: 1}}>
       {label && <TextComponent text={label} />}
+      <SpaceComponent height={10} />
       <RowComponent
         styles={[globalStyles.inputContainer]}
         onPress={() => setIsShowDatePicker(true)}>

@@ -8,7 +8,9 @@ interface EventModel {
   startAt: number;
   title: string;
   users: string[];
+  position: Position;
 }
+
 interface Location {
   address: string;
   title: string;
