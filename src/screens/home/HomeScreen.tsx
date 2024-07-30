@@ -73,7 +73,7 @@ const HomeScreen = ({navigation}: any) => {
       <View
         style={{
           backgroundColor: appColors.primary,
-          height: 178 + (Platform.OS === 'ios' ? 16 : 0),
+          height: 178 + (Platform.OS === 'ios' ? 10 : 22),
           borderBottomLeftRadius: 40,
           borderBottomRightRadius: 40,
           paddingTop:
@@ -163,8 +163,8 @@ const HomeScreen = ({navigation}: any) => {
           </RowComponent>
           <SpaceComponent height={24} />
         </View>
-        <View style={{marginBottom: -14}}>
-          <CategoriesList isColor />
+        <View>
+          <CategoriesList isFill />
         </View>
       </View>
       <ScrollView

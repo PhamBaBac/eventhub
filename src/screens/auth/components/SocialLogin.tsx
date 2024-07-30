@@ -35,6 +35,7 @@ const SocialLogin = ({navigation}: any) => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const user = userInfo.user;
+      console.log("user", user);
 
       const res: any = await authenticationAPI.HandleAuthentication(
         api,
@@ -44,7 +45,6 @@ const SocialLogin = ({navigation}: any) => {
 
       dispatch(addAuth(res.data));
       await AsyncStorage.setItem('auth', JSON.stringify(res.data));
-      navigation.navigate('HomeScreen');
       setIsLoading(false);
     } catch (error) {
       console.log(error);

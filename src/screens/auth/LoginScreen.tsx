@@ -48,9 +48,8 @@ const LoginScreen = ({navigation}: any) => {
 
         dispatch(addAuth(res.data));
 
-        await AsyncStorage.setItem(
-          'auth',
-          isRemember ? JSON.stringify(res.data) : email,
+        await AsyncStorage.setItem('auth',
+          isRemember ? JSON.stringify(res.data) : JSON.stringify({}),
         );
         navigation.navigate('HomeScreen');
         

@@ -61,7 +61,7 @@ const EventItem = (props: Props) => {
         </RowComponent>
       </ImageBackground>
       <TextComponent
-        numberOfLine={1}
+          numOfLine={1}
         title
         size={18}
         text="International Band Music Concert"
@@ -73,8 +73,8 @@ const EventItem = (props: Props) => {
         <TextComponent
           flex={1}
           text={item.location.address}
-          numberOfLine={1}
           color={appColors.text3}
+          numOfLine={1}
         />
       </RowComponent>
     </CardComponent>

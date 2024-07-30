@@ -5,6 +5,7 @@ import CircleComponent from "./CircleComponent";
 import ContainerComponent from "./ContainerComponent";
 import DateTimePicker from "./DateTimePicker";
 import DrawerCustom from "./DrawerCustom";
+import DropDownPicker from "./DropDownPicker";
 import EventItem from "./EventItem";
 import InputComponent from "./InputComponent";
 import RowComponent from "./RowComponent";
@@ -31,4 +32,5 @@ export {
   EventItem,
   TagComponent,
   DateTimePicker,
+  DropDownPicker
 };

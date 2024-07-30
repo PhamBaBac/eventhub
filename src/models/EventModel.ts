@@ -8,7 +8,7 @@ interface EventModel {
   startAt: number;
   title: string;
   users: string[];
-  position: Position;
+  position?: Position;
 }
 
 interface Location {
