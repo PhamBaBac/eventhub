@@ -138,8 +138,8 @@ useEffect(() => {
     onClose();
     GeoCoder.from(latitude, longitude)
       .then(data => {
-        console.log(data);
-        console.log(data.results[0].address_components[0]);
+        const address = data.results[0].formatted_address;
+        setAddressSelected(address);
       })
       .catch(error => {
         console.log(error);

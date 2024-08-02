@@ -1,4 +1,5 @@
 import ButtonComponent from "./ButtonComponent";
+import ButtonImagePicker from "./ButtonImagePicker";
 import CardComponent from "./CardComponent";
 import CategoriesList from "./CategoriesList";
 import CircleComponent from "./CircleComponent";
@@ -32,5 +33,7 @@ export {
   EventItem,
   TagComponent,
   DateTimePicker,
-  DropDownPicker
+  DropDownPicker,
+  ButtonImagePicker,
+  
 };

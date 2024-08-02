@@ -3,6 +3,7 @@ import {
   Image,
   ImageBackground,
   ScrollView,
+  StatusBar,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -28,6 +29,7 @@ const EventDetail = ({navigation, route}: any) => {
   const {item}: {item: EventModel} = route.params;
   return (
     <View style={{flex: 1, backgroundColor: appColors.white}}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" />
       <ImageBackground
         source={{
           uri: 'https://phambabac.s3.ap-southeast-1.amazonaws.com/202d0b66-4573-4bab-804b-99dd4547b858.jpg',

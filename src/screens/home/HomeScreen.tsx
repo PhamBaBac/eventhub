@@ -69,7 +69,6 @@ const HomeScreen = ({navigation}: any) => {
 
   return (
     <View style={[globalStyles.container]}>
-      <StatusBar barStyle={'light-content'} />
       <View
         style={{
           backgroundColor: appColors.primary,
@@ -83,6 +82,7 @@ const HomeScreen = ({navigation}: any) => {
                 : 12
               : 52,
         }}>
+        <StatusBar barStyle="light-content" />
         <View style={{paddingHorizontal: 16}}>
           <RowComponent>
             <TouchableOpacity onPress={() => navigation.openDrawer()}>

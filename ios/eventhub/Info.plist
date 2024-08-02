@@ -47,6 +47,12 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string> Tìm sự kiện xung quanh bạn</string>
 	<key>UILaunchStoryboardName</key>
+	<string>Cấp quyền truy cập</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Cấp quyền truy cập</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Cấp quyền truy cập</string>
+	<key>NSCameraUsageDescription</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
