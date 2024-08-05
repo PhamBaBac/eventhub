@@ -24,6 +24,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AvatarGroup from '../../components/AvatarGroup';
 import {LinearGradient} from 'react-native-linear-gradient';
 import { Circle } from 'react-native-svg';
+import { EventModel } from '../../models/EventModel';
 
 const EventDetail = ({navigation, route}: any) => {
   const {item}: {item: EventModel} = route.params;

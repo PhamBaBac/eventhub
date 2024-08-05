@@ -2,10 +2,18 @@ import {
   HambergerMenu,
   Notification,
   SearchNormal,
-  Sort
+  Sort,
 } from 'iconsax-react-native';
-import React, { useEffect, useState } from 'react';
-import { FlatList, ImageBackground, Platform, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  FlatList,
+  ImageBackground,
+  Platform,
+  ScrollView,
+  StatusBar,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   CategoriesList,
@@ -15,27 +23,39 @@ import {
   SectionComponent,
   SpaceComponent,
   TabBarComponent,
-  TextComponent
+  TextComponent,
 } from '../../components';
-import { appColors, fontFamilies } from '../../constants';
-import { globalStyles } from '../../styles/globalStyles';
+import {appColors, fontFamilies} from '../../constants';
+import {globalStyles} from '../../styles/globalStyles';
 import TagComponent from '../../components/TagComponent';
 import GeoLocation from '@react-native-community/geolocation';
 import axios from 'axios';
+import {EventModel} from '../../models/EventModel';
+import eventAPI from '../../apis/eventApi';
 
 const HomeScreen = ({navigation}: any) => {
-   const [currentLocation, setCurrentLocation] = useState<AddressModel >();
+  const [currentLocation, setCurrentLocation] = useState<AddressModel>();
+  const [events, setEvents] = useState<EventModel[]>([]);
+  const [nearbyEvents, setNearbyEvents] = useState<EventModel[]>([]);
+  console.log('events', events);
 
-   useEffect(() => {
-     GeoLocation.getCurrentPosition(position => {
-       if (position.coords) {
-         reverseGeoCode({
-           lat: position.coords.latitude,
-           long: position.coords.longitude,
-         });
-       }
-     });
-   }, []);
+  useEffect(() => {
+    GeoLocation.getCurrentPosition(position => {
+      if (position.coords) {
+        reverseGeoCode({
+          lat: position.coords.latitude,
+          long: position.coords.longitude,
+        });
+      }
+    });
+    getEvents();
+  }, []);
+
+  useEffect(() => {
+    currentLocation &&
+      currentLocation.position &&
+      getEvents(currentLocation.position.lat, currentLocation.position.lng);
+  }, [currentLocation]);
 
   const reverseGeoCode = async ({lat, long}: {lat: number; long: number}) => {
     const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-VN&apiKey=ifJH90rxpk9Bv7UG3VydMhplRNuf-6hpT86eEJaG_rQ`;
@@ -50,22 +70,23 @@ const HomeScreen = ({navigation}: any) => {
       console.log(error);
     }
   };
-   const itemEvent = {
-     title: 'International Band Music Concert',
-     description:
-       'Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase.',
-     location: {
-       title: 'Gala Convention Center',
-       address: '36 Guild Street London, UK',
-     },
-     imageUrl:
-       'https://phambabac.s3.ap-southeast-1.amazonaws.com/202d0b66-4573-4bab-804b-99dd4547b858.jpg',
-     users: [''],
-     authorId: '',
-     startAt: Date.now(),
-     endAt: Date.now(),
-     date: Date.now(),
-   };
+  const getEvents = async (lat?: number, long?: number, distance?: number) => {
+    const api = `${
+      lat && long
+        ? `/?lat=${lat}&long=${long}&distance=${distance ?? 5}&limit=5`
+        : `/?limit=5`
+    }&date=${new Date().toISOString()}`;
+    console.log(api);
+
+    try {
+      const res = await eventAPI.HandleEvent(api);
+      console.log(res);
+
+      res && res.data && (lat && long ? setNearbyEvents(res.data) : setEvents(res.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={[globalStyles.container]}>
@@ -180,10 +201,8 @@ const HomeScreen = ({navigation}: any) => {
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal
-            data={Array.from({length: 5})}
-            renderItem={({item, index}) => (
-              <EventItem key={`event${index}`} item={itemEvent} type="card" />
-            )}
+            data={events}
+            renderItem={({item}) => <EventItem item={item} type="card" />}
           />
         </SectionComponent>
         <SectionComponent>
@@ -222,10 +241,8 @@ const HomeScreen = ({navigation}: any) => {
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal
-            data={Array.from({length: 5})}
-            renderItem={({item, index}) => (
-              <EventItem key={`event${index}`} item={itemEvent} type="card" />
-            )}
+            data={nearbyEvents}
+            renderItem={({item}) => <EventItem item={item} type="card" />}
           />
         </SectionComponent>
       </ScrollView>

@@ -6,7 +6,7 @@ class EventAPI {
     data?: any,
     method?: 'get' | 'post' | 'put' | 'delete',
   ) => {
-    return await axiosClient(`/api/v1/event${url}`, {
+    return await axiosClient(`/api/v1/events${url}`, {
       method: method ?? 'get',
       data,
     });

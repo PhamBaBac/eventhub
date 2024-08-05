@@ -22,6 +22,7 @@ import {ImageOrVideo} from 'react-native-image-crop-picker';
 import eventAPI from '../apis/eventApi';
 import { Validate } from '../utils/validate';
 import { appColors } from '../constants';
+import { EventModel } from '../models/EventModel';
 
 const initValues = {
   title: '',
@@ -39,7 +40,7 @@ const initValues = {
   endAt: Date.now(),
   date: Date.now(),
   price: '',
-  category: '',
+  category: [],
 };
 const AddNewScreen = ({navigation}: any) => {
   const auth = useSelector(authSelector);
@@ -48,21 +49,38 @@ const AddNewScreen = ({navigation}: any) => {
     ...initValues,
     authorId: auth.id,
   });
+  const [errorsMess, setErrorsMess] = useState<string[]>([]);
+
+  console.log(eventData.category);
+
   const [fileSelected, setFileSelected] = useState<any>();
   useEffect(() => {
     handleGetAllUsers();
   }, []);
-  const [errorsMess, setErrorsMess] = useState<string[]>([]);
 
 
 
-  const handleChangeValue = (key: string, value: string | Date | string[]) => {
-    const items = {...eventData};
-    items[`${key}`] = value;
+  useEffect(() => {
+    const mess = Validate.EventValidation(eventData);
 
-    setEventData(items);
-  };
+    setErrorsMess(mess);
+  }, [eventData]);
 
+
+
+ const handleChangeValue = (key: string, value: string | Date | string[]) => {
+   const items = {...eventData};
+   if (key === 'startAt' || key === 'endAt' || key === 'date') {
+     if (typeof value === 'string') {
+       items[key] = Date.parse(value);
+     } else if (value instanceof Date) {
+       items[key] = value.getTime();
+     }
+   } else {
+     items[key] = value;
+   }
+   setEventData(items);
+ };
   const handleLocation = (val: any) => {
     const items = {...eventData};
     items.position = val.postion;
@@ -132,10 +150,11 @@ const AddNewScreen = ({navigation}: any) => {
     }
   };
 
-  const handlePustEvent = async (event: EventModel) => {
+  const handlePustEvent = async (events: EventModel) => {
     const api = `/add-new-event`;
     try {
-      const res = await eventAPI.HandleEvent(api, event, 'post');
+      const res = await eventAPI.HandleEvent(api, events, 'post');
+      console.log(res);
       navigation.navigate('Explore', {
         screen: 'HomeScreen',
       });
@@ -144,11 +163,6 @@ const AddNewScreen = ({navigation}: any) => {
     }
   };
 
-  useEffect(() => {
-    const mess = Validate.EventValidation(eventData);
-
-    setErrorsMess(mess);
-  }, [eventData]);
 
   return (
     <ContainerComponent isScroll>
@@ -216,22 +230,22 @@ const AddNewScreen = ({navigation}: any) => {
           <DateTimePicker
             label="Start at:"
             type="time"
-            onSelected={val => handleChangeValue('date', val)}
-            selected={eventData.date}
+            onSelected={val => handleChangeValue('startAt', val)}
+            selected={eventData.startAt}
           />
           <SpaceComponent width={10} />
           <DateTimePicker
             label="End at:"
             type="time"
-            onSelected={val => handleChangeValue('startAt', val)}
-            selected={eventData.startAt}
+            onSelected={val => handleChangeValue('endAt', val)}
+            selected={eventData.endAt}
           />
         </RowComponent>
         <DateTimePicker
           label="Date:"
           type="date"
-          onSelected={val => handleChangeValue('startAt', val)}
-          selected={eventData.startAt}
+          onSelected={val => handleChangeValue('date', val)}
+          selected={eventData.date}
         />
 
         <DropDownPicker

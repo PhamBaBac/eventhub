@@ -1,53 +1,89 @@
-import { View, Text, StatusBar, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import {View, Text, StatusBar, TouchableOpacity, FlatList} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import GeoLocation from '@react-native-community/geolocation';
-import MapView, { Marker } from 'react-native-maps';
-import { appColors, appInfo } from '../../constants';
-import { CardComponent, CategoriesList, InputComponent, RowComponent, SpaceComponent } from '../../components';
-import { ArrowLeft2 } from 'iconsax-react-native';
-import { globalStyles } from '../../styles/globalStyles';
+import MapView, {Marker} from 'react-native-maps';
+import {appColors, appInfo} from '../../constants';
+import {
+  CardComponent,
+  CategoriesList,
+  EventItem,
+  InputComponent,
+  MakerCustom,
+  RowComponent,
+  SpaceComponent,
+} from '../../components';
+import {ArrowLeft2} from 'iconsax-react-native';
+import {globalStyles} from '../../styles/globalStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import eventAPI from '../../apis/eventApi';
+import {EventModel} from '../../models/EventModel';
 
+const MapScreen = ({navigation}: any) => {
+  const [currentLocation, setCurrentLocation] = useState<{
+    lat: number;
+    long: number;
+  }>();
+  const [events, setEvents] = useState<EventModel[]>([]);
+  const mapRef = useRef<MapView>(null);
 
-const MapScreen = ({navigation}:any) => {
-   const [currentLocation, setCurrentLocation] = useState<{
-     lat: number;
-     long: number;
-   }>();
-   const [events, setEvents] = useState<EventModel[]>([]);
+  useEffect(() => {
+    GeoLocation.getCurrentPosition(
+      position => {
+        if (position.coords) {
+          setCurrentLocation({
+            lat: position.coords.latitude,
+            long: position.coords.longitude,
+          });
+        }
+      },
+      error => {
+        console.log(error);
+      },
+      {},
+    );
+  }, []);
 
+  useEffect(() => {
+    currentLocation && getNearbyEvents();
+  }, [currentLocation]);
 
-   useEffect(() => {
-     GeoLocation.getCurrentPosition(
-       position => {
-         if (position.coords) {
-           setCurrentLocation({
-             lat: position.coords.latitude,
-             long: position.coords.longitude,
-           });
-         }
-       },
-       error => {
-         console.log(error);
-       },
-       {},
-     );
-   }, []);
+  const getNearbyEvents = async () => {
+    const api = `/?lat=${currentLocation?.lat}&long=${currentLocation?.long}&distance=${5}&limit=5&date=${new Date().toISOString()}`
+    try {
+      const res = await eventAPI.HandleEvent(api);
+      console.log('res', res.data);
+      setEvents(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-   useEffect(() => {
-     currentLocation 
-   }, [currentLocation]);
+  
+  const moveToCurrentLocation = () => {
+    if (currentLocation && mapRef.current) {
+      mapRef.current.animateToRegion(
+        {
+          latitude: currentLocation.lat,
+          longitude: currentLocation.long,
+          latitudeDelta: 0.001,
+          longitudeDelta: 0.015,
+        },
+        1000,
+      ); // thời gian di chuyển (ms)
+    }
+  };
   return (
     <View style={{flex: 1}}>
       <StatusBar barStyle="dark-content" />
       {currentLocation ? (
         <MapView
+          ref={mapRef}
           style={{
             width: appInfo.sizes.WIDTH,
             height: appInfo.sizes.HEIGHT,
           }}
           showsMyLocationButton
-          // showsUserLocation
+          showsUserLocation
           initialRegion={{
             latitude: currentLocation.lat,
             longitude: currentLocation.long,
@@ -60,7 +96,22 @@ const MapScreen = ({navigation}:any) => {
             latitudeDelta: 0.001,
             longitudeDelta: 0.015,
           }}
-          mapType="standard"></MapView>
+          mapType="mutedStandard">
+          {events.length > 0 &&
+            events.map((event, index) => (
+              <Marker
+                key={`event${index}`}
+                title={event.title}
+                description=""
+                onPress={() => console.log('')}
+                coordinate={{
+                  longitude: event.position.long,
+                  latitude: event.position.lat,
+                }}>
+                <MakerCustom type={event.category} />
+              </Marker>
+            ))}
+        </MapView>
       ) : (
         <></>
       )}
@@ -96,6 +147,7 @@ const MapScreen = ({navigation}:any) => {
           </View>
           <SpaceComponent width={12} />
           <CardComponent
+            onPress={moveToCurrentLocation}
             styles={[globalStyles.noSpaceCard, {width: 56, height: 56}]}
             color={appColors.white}>
             <MaterialIcons
@@ -108,8 +160,23 @@ const MapScreen = ({navigation}:any) => {
         <SpaceComponent height={20} />
         <CategoriesList />
       </View>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          right: 0,
+          left: 0,
+        }}>
+        <FlatList
+          initialScrollIndex={0}
+          data={events}
+          renderItem={({item}) => <EventItem item={item} type="list" />}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
     </View>
   );
-}
+};
 
-export default MapScreen
+export default MapScreen;
